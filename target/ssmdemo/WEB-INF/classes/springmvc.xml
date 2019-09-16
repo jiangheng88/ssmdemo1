@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--注解解析器-->
+    <mvc:annotation-config></mvc:annotation-config>
+    <!--开启注解的扫描器，扫描的范围-->
+    <mvc:component-scan base-package="cn.qst.ssmdemo"></mvc:component-scan>
+    <!--springmvc的视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--视图解析器前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <!--视图解析器后缀-->
+        <property name="suffix" value=".jsp"></property>
+        <!--视图解析器的加载顺序，多个解析器的时候，这个属性起作用，数值越低，优先级越高  -->
+        <property name="order" value="1"></property>
+
+    </bean>
+    <bean id="requestMappingHandlerMapping"
+          class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+    <!-- 配置类名解析来找到自定义视图 -->
+    <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <!-- value中的值时随便写的，只要比默认值小就行，默认值是一个非常大的数 -->
+        <property name="order" value="50"></property>
+    </bean>
+
+</beans>

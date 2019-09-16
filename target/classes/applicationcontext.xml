@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd ">
+    <!--注解解析器-->
+    <context:annotation-config></context:annotation-config>
+    <!--扫描包-->
+    <context:component-scan base-package="cn.qst.ssmdemo"></context:component-scan>
+    <!--连接到jdbc.properties的配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+
+    <!--*********************配置c3p0的数据连接池**************************-->
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--连接数据库-->
+        <property name="user" value="${user}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="driverClass" value="${driverClass}"></property>
+        <property name="jdbcUrl" value="${jdbcUrl}"></property>
+        <!--配置-->
+        <property name="acquireIncrement"
+                  value="${jdbc.acquireIncrement}"></property>
+        <property name="initialPoolSize"
+                  value="${jdbc.initialPoolSize}"></property>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"></property>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
+        <property name="maxStatements" value="${jdbc.maxStatements}"></property>
+        <property name="maxStatementsPerConnection"
+                  value="${jdbc.maxStatementsPerConnection}"></property>
+    </bean>
+
+    <!--配置Spring的JdbcTemplate，他可以解决代码失控-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!--与上面配置的连接池关联-->
+        <property name="dataSource" ref="dataSource"></property>
+
+    </bean>
+
+    <!--******************整合Mybatis********************************-->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:cn/qst/ssmdemo/dao/*.xml"></property>
+    </bean>
+
+    <!--********************配置扫描Mapper的接口***********************-->
+
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--包名-->
+        <property name="basePackage" value="cn.qst.ssmdemo.dao"></property>
+        <!---->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+
+    </bean>
+
+
+</beans>

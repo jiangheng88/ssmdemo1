@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--configuration中的配置节点有先后顺序要求-->
+    <settings>
+        <!--配置mybatis的日志输出：输出编译之后的sql语句，便于调试-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <!--起别名的设置，-->
+    <typeAliases>
+        <!--这个设置是为整个包起别名，每个别名都是类名的第一个字母小写-->
+        <package name="cn.qst.ssmdemo.entity"></package>
+    </typeAliases>
+    
+</configuration>
